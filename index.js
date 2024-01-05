@@ -1,28 +1,41 @@
 import path from 'path';
-
+import sqlite3 from 'sqlite3';
 import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 import session from 'express-session';
 import express from 'express';
-
 import Handlebars from "handlebars";
+import bcrypt from 'bcrypt';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const db = new sqlite3.Database('./my_database.db');
 const template = Handlebars.compile("Name: {{name}}");
 console.log(template({ name: "Nils" }));
 const app = express()
 
 const hostname = '127.0.0.1';
 const port = 3000;
-
 const donnée = 42
+
+db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    username TEXT,
+    email TEXT,
+    password TEXT
+)`);
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/static", express.static(path.join(__dirname, '/static')))
 app.use("/public", express.static(path.join(__dirname, '/public')))
 
 
-
-
+//midleware
+app.use(session({
+    secret: 'blahblahblah',
+    resave: false,
+    saveUninitialized: true,
+}));
 
 
 
@@ -45,7 +58,7 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { username, email, password } = req.body;
-
+    
     // Validate the input data
     if (!username || !email || !password) {
         res.status(400).send('All fields are required');
@@ -62,18 +75,18 @@ app.post('/register', (req, res) => {
             res.status(500).send('An error occurred while registering the user');
             return;
         }
-
+        req.session.username = username;
         res.redirect('/welcome');
-    app.use(session({
-        secret: 'your secret key',
-        resave: false,
-        saveUninitialized: true,
-    }));
-    
-    app.get('/welcome', username, (req, res) => {
-        // Render your welcome page here
-        res.send('Welcome page');
     });
+});
+
+
+    
+app.get('/welcome', (req, res) => {
+        const username = req.session.username;
+        // Render your welcome page here
+        res.send('Welcome '+ username + ' !');
+});
     
 
 app.post('/login', (req, res) => {
