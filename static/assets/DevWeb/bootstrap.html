@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Pésentation de Bootstrap</title>
+  <link rel="stylesheet" href="/DevWeb/assets/css/perso.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</head>
+
+
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="/DevWeb/assets/images/Bootstrap_logo.svg.png" alt="Logo" width="30" height="24"
+          class="d-inline-block align-text-top">
+        Bootstrap
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#installation">Installation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#forms">Forms</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#grid">Grille</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#components" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Components
+            </a>
+            <ul class="dropdown-menu">
+             
+              <li><a class="dropdown-item" href="#alert">Alertes</a></li>
+              <li><a class="dropdown-item" href="#card">Card</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#toast">Toast</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <div class="intro">
+    <p>Bootstrap est une collection d'outils utiles à la création du design (graphisme, animation et interactions avec
+      la page dans le navigateur, etc.) de sites et d'applications web. C'est un ensemble qui contient des codes HTML et
+      CSS, des formulaires, boutons, outils de navigation et autres éléments interactifs, ainsi que des extensions
+      JavaScript en option. </p>
+  </div>
+
+  <div class="partie" id="installation">
+    <h1>Installation &nbsp <span class="badge bg-dark">2 méthodes</span></h1>
+    <!-- <hr style="width: 15cm;"> -->
+    <h5>- Téléchargement direct</h5>
+
+    <p>Voici le <a href="https://getbootstrap.com/docs/5.3/getting-started/download/">lien</a> pour télécharger la
+      denière version de Bootstrap (5.3) </p>
+    <p>Il suffit ensuite de placer les fichiers css et js dans les dossiers correspondants et de les relier à notre
+      fichier html</p>
+    <h5>- Via CDN &nbsp <span class="badge rounded-pill text-bg-success">Recommandé</span></h5>
+    <p>Les CDN sont des serveurs localisés dans tout le monde permettant un téléchargement rapide de petits fichiers</p>
+    <p>Pour installer Bootstrap de cette manière, il suffit de placer 2 lignes permettant le téléchargement du css et du
+      js dans le < head > 
+    </p>
+    <p>Le tutoriel est détaillé <a
+        href="https://getbootstrap.com/docs/5.3/getting-started/download/#cdn-via-jsdelivr">ici</a> et cela permet de
+      mettre a jour Bootstrap plus facilement</p>
+      <hr>
+  </div>
+
+
+  <div class="partie" id="forms">
+    <h1>Forms </h1>
+    <h5>Utilisation</h5>
+    <p style="padding-bottom: 1%;">Les forms peuvent être utilisés pour l'authentification, le contact, des commandes...</p>
+    
+    <div class="container text-center">   
+    <form style="padding-left: 30%; padding-right: 30%">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="jean.loutre@centrale-med.fr">
+        <div id="emailHelp" class="form-text"></div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="toto123">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Se souvenir de moi</label>
+      </div>
+      <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Envoyer</button>
+    </form>
+    
+  </div>
+  <p>Plusieurs paramètres sont disponibles comme la taille des blocs, la désactivation de certains blocs, leur contenu...</p>
+  <div class="container text-center"style="padding-left: 10%; padding-right: 10%">   
+    
+  <div class="md-3">
+    <label for="formFile" class="form-label">Ceci est une zone de dépôt</label>
+    <input class="form-control" type="file" id="formFile">
+    </div>
+  </div>
+  <p></p>
+  <p>On peut aussi faire une zone de dépôt de fichiers ou des blocs de sélection</p>
+
+  <div class="container text-center"style="padding-left: 10%; padding-right: 10%">  
+  <label for="exampleDataList" class="form-label">Exemple de liste déroulante</label>
+<input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Clickez pour chercher votre APSA">
+<datalist id="datalistOptions">
+  <option value="Football">
+  <option value="Handball">
+  <option value="Pompims">
+  <option value="Randonnée">
+  <option value="Volleyball">
+</datalist>
+</div>
+  <hr>
+  
+  
+  </div>
+
+
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Vous êtes connecté avec l'identifiant: "exampleInputEmail1"
+          </div>
+          <div class="modal-footer">
+            
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Merci</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    
+  </div>
+
+
+  <div class="partie" id="grid">
+    <h1>Grilles &nbsp </h1>
+
+  
+
+    <!-- <hr style="width: 15cm;"> -->
+    <p style="text-align: center;">
+      La grande force de Bootstrap est sans contre dit sa grille : cette dernière est constituée de 12 colonnes.
+    </p>
+    <div style="padding-bottom: 1%; padding-top: 1%;" class="container-fluid bg-body-tertiary">
+      <div class="tableau12">
+        <div class="row text-align">
+          <div class="col ">
+            1
+          </div>
+          <div class="col">
+            2
+          </div>
+          <div class="col ">
+            3
+          </div>
+          <div class="col ">
+            4
+          </div>
+          <div class="col ">
+            5
+          </div>
+          <div class="col ">
+            6
+          </div>
+          <div class="col ">
+            7
+          </div>
+          <div class="col ">
+            8
+          </div>
+          <div class="col ">
+            9
+          </div>
+          <div class="col ">
+            10
+          </div>
+          <div class="col ">
+            11
+          </div>
+          <div class="col ">
+            12
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h5 style="padding-top: 1%;">- Container</h5>
+    <p>Les conteneurs sont en fait des balises HTML de bases auxquelles une classe CSS définie par Bootstrap est ajoutée.</p>
+    <p style="text-align: center;">
+      <code> &lt;div class=&quot;container&quot;&gt;...&lt;/div&gt;</code>
+    </p>
+
+    <h5>- Container-fluid</h5>
+    <p>Les conteneurs fluides, comme leur nom l'indique, sont fluides. Autrement dit, peu importe la dimension de l'écran, le conteneur prendra toujours toute la largeur disponible.</p>
+    <p style="text-align: center;">
+      <code> &lt;div class=&quot;container-fluid&quot;&gt;...&lt;/div&gt;</code>
+    </p>
+
+    <h5>- Rangées</h5>
+    <p>Les rangées servent à gérer le positionnement des colonnes se trouvant à l'intérieur de celles-ci.</p>
+    <p style="text-align: center;">
+      <code> &lt;div class=&quot;row&quot;&gt;...&lt;/div&gt;</code>
+    </p>
+
+    <h5>- Colonnes</h5>
+    <p>Les colonnes permettent de définir la dimension allouée aux différents éléments sur la page.</p>
+    <p style="text-align: center;">
+      <code> &lt;div class=&quot;col&quot;&gt;...&lt;/div&gt;</code>
+    </p>
+
+    <div class="container bg-body-tertiary text-align">
+      <div style="padding-bottom: 1%; padding-top: 1%; text-align: center;" class="row">
+        <div class="col ">
+          1
+        </div>
+        <div class="col">
+          2
+        </div>
+        <div class="col ">
+          3
+        </div>
+        <div class="col ">
+          4
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<hr>
+
+<div class="partie" id="components">
+  <h1>Components</h1>
+  <div class="container text-center">   
+<div class="accordion" >
+  <div class="accordion-item" id="alert">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Alertes
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        
+        <div id="liveAlertPlaceholder"></div>
+        <button type="button" class="btn btn-primary" id="liveAlertBtn">Afficher une alerte</button>      </div>
+    </div>
+  </div>
+  <div class="accordion-item" id="card">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Cartes
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <div class="card" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Accordion Item #3
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+  <script src="/DevWeb/assets/js/snippets.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+</body>
