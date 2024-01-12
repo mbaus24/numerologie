@@ -1,6 +1,4 @@
-rajout middleware
-rajout mise en page avec templating 
-rajout API
-
+suprimer photos 
+bonne redirection lorsque 
 
 rediriger vers la page /bienvenue/username lorsque une personne se register

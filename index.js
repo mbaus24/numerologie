@@ -5,17 +5,27 @@ import session from 'express-session';
 import express from 'express';
 import Handlebars from "handlebars";
 import bcrypt from 'bcrypt';
+import multer from 'multer';
+import ejs from 'ejs';
+import bodyParser from 'body-parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const db = new sqlite3.Database('./my_database.db');
 const template = Handlebars.compile("Name: {{name}}");
-console.log(template({ name: "Nils" }));
-const app = express()
 
+const app = express()
+const upload = multer({ dest: 'uploads/' });
 const hostname = '127.0.0.1';
 const port = 3000;
 const donnée = 42
+
+app.use(bodyParser.text());
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+
+// Set the views directory
+app.set('views', path.join(__dirname, 'static'));
 
 db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
@@ -23,6 +33,32 @@ db.run(`CREATE TABLE IF NOT EXISTS users (
     email TEXT,
     password TEXT
 )`);
+
+db.run(`CREATE TABLE IF NOT EXISTS images (
+    id INTEGER PRIMARY KEY,
+    category TEXT,
+    subcategory TEXT,
+    image TEXT
+)`, (err) => {
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log("Images table created successfully");
+    }
+});
+
+db.run(`CREATE TABLE IF NOT EXISTS Categories (
+    id INTEGER PRIMARY KEY,
+    category TEXT,
+)`);
+
+db.run(`CREATE TABLE IF NOT EXISTS SubCategories (
+    id INTEGER PRIMARY KEY,
+    subcategory TEXT,
+    id_category INTEGER,
+)`);
+
+
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -81,11 +117,65 @@ app.post('/register', (req, res) => {
 });
 
 
-    
+
+app.post('/create.html', upload.single('image'), (req, res) => {
+    const { category, subcategory } = req.body;
+    const image = req.file.filename; // multer automatically saves the file and gives it a filename
+    console.log(req.body)
+    console.log(req.file)
+    console.log(image)
+    // Insert the data into the database
+    db.run(`INSERT INTO images(category, subcategory, image) VALUES(?, ?, ?)`, [category, subcategory, image], function(err) {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while uploading the image');
+            return;
+        }  console.log(`A row has been inserted with rowid ${this.lastID}`);
+        
+        res.redirect('/gallery.html');
+    });
+});
+
+app.get('/gallery/:category', (req, res) => {
+    const category = req.params.category;
+
+    db.all(`SELECT * FROM images WHERE category = ? ORDER BY subcategory`, [category], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while fetching the images');
+            return;
+        }
+
+        const categories = [...new Set(rows.map(image => image.category))];
+
+        res.render('gallery', { images: rows, categories: categories });
+    });
+});
+
+app.get('/gallery.html', (req, res) => {
+    db.all(`SELECT * FROM images ORDER BY category, subcategory`, [], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while fetching the images');
+            return;
+        }
+
+        const categories = [...new Set(rows.map(image => image.category))];
+
+        res.render('gallery', { images: rows, categories: categories });
+    });
+});
+
+
+
+app.get('/create', (req, res) => {
+    res.redirect('/static/create.html');
+}   );
+
 app.get('/welcome', (req, res) => {
         const username = req.session.username;
         // Render your welcome page here
-        res.send('Welcome '+ username + ' !');
+        res.send('Bienvenue '+ username + ' !');
 });
     
 
@@ -100,7 +190,21 @@ app.post('/login', (req, res) => {
     
         res.redirect('/');
 });
-    
+  
+app.post('/create-category', (req, res) => {
+    const newCategoryName = req.body.newCategoryName;
+    db.run(`INSERT INTO categories(category) VALUES(?)`, [newCategoryName], function(err) {
+        if (err) {
+            console.error(err);
+            res.status(500).send('An error occurred while uploading the image');
+            return;
+        }  console.log(`A row has been inserted with rowid ${this.lastID}`);
+        
+        res.redirect('/create.html');
+    });
+});
+
+
 /* app.post('/register', (req, res) => {
     const { username, password } = req.body;
     
@@ -122,8 +226,16 @@ app.use(function (req, res) {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'text/html');
 
-    res.end("<html><head><title>la quatre cent quatre</title></head><body><img  src=\"https://upload.wikimedia.org/wikipedia/commons/b/b4/Peugeot_404_Champs.jpg\" /></body></html>");
+    res.write('<html>');
+    res.write('<head><title>404 Not Found</title></head>');
+    res.write('<body>');
+    res.write('<h1>404 Not Found</h1>');
+    res.write('<p>The requested URL ' + req.url + ' was not found on this server.</p>');
+    res.write('<img src="https://http.cat/404" alt="Error 404 Cat">'); // Inserting error 404 cat image
+    res.write('</body>');
+    res.write('</html>');
 
+    res.end();
 });
 
 
