@@ -27,12 +27,20 @@ app.set('view engine', 'ejs');
 // Set the views directory
 app.set('views', path.join(__dirname, 'static'));
 
+
+
 db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     username TEXT,
     email TEXT,
     password TEXT
-)`);
+)`, (err) => {
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log("Users table created successfully");
+    }
+});
 
 db.run(`CREATE TABLE IF NOT EXISTS images (
     id INTEGER PRIMARY KEY,
@@ -49,14 +57,26 @@ db.run(`CREATE TABLE IF NOT EXISTS images (
 
 db.run(`CREATE TABLE IF NOT EXISTS Categories (
     id INTEGER PRIMARY KEY,
-    category TEXT,
-)`);
+    category TEXT
+)`, (err) => {
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log("Categories table created successfully");
+    }
+});
 
 db.run(`CREATE TABLE IF NOT EXISTS SubCategories (
     id INTEGER PRIMARY KEY,
     subcategory TEXT,
-    id_category INTEGER,
-)`);
+    id_category INTEGER
+)`, (err) => {
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log("Sub table created successfully");
+    }
+});
 
 
 
@@ -168,9 +188,25 @@ app.get('/gallery.html', (req, res) => {
 
 
 
-app.get('/create', (req, res) => {
-    res.redirect('/static/create.html');
-}   );
+app.get('/get-categories', (req, res) => {
+    db.all(`SELECT * FROM Categories`, [], (err, rows) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
+app.get('/static/create.html', (req, res) => {
+    db.all(`SELECT * FROM Categories`, [], (err, rows) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(rows);
+        }
+    });
+});
 
 app.get('/welcome', (req, res) => {
         const username = req.session.username;
@@ -192,15 +228,15 @@ app.post('/login', (req, res) => {
 });
   
 app.post('/create-category', (req, res) => {
-    const newCategoryName = req.body.newCategoryName;
+    const newCategoryName = req.body;
     db.run(`INSERT INTO categories(category) VALUES(?)`, [newCategoryName], function(err) {
         if (err) {
             console.error(err);
             res.status(500).send('An error occurred while uploading the image');
             return;
-        }  console.log(`A row has been inserted with rowid ${this.lastID}`);
+        }  console.log(`A row has been inserted with rowid ${this.lastID} and category ${newCategoryName}`);
         
-        res.redirect('/create.html');
+        res.redirect('/static/create.html');
     });
 });
 

@@ -107,13 +107,9 @@ https://templatemo.com/tm-543-breezed
             <input type="file" class="form-control" id="image" name="image" accept="image/*">
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">Select a category:</label>
-            <select class="form-select" id="category" name="category">
-                <option selected>--Please choose an option--</option>
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <!-- Add more options as needed -->
-            </select>
+            <label for="categorySelect">Category:</label>
+    <select id="categorySelect" name="category">
+    </select>
             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#categoryModal">Create Category</button>
         </div>
         <div class="mb-3">
@@ -171,6 +167,23 @@ https://templatemo.com/tm-543-breezed
     </div>
   </div>
 
+<script>
+window.onload = function() {
+    fetch('/get-categories')
+    .then(response => response.json())
+    .then(categories => {
+        var select = document.getElementById('categorySelect');
+
+        categories.forEach(category => {
+            var option = document.createElement('option');
+            option.value = category.id;
+            option.text = category.category;
+            select.add(option);
+        });
+    })
+    .catch(error => console.error(error));
+};
+</script>
 
     <script>
 document.getElementById('newCategoryForm').addEventListener('submit', function(e) {
@@ -187,10 +200,10 @@ document.getElementById('newCategoryForm').addEventListener('submit', function(e
     })
     .then(response => response.json())
     .then(data => {
-        // Handle success
+        alert('Category created successfully');
     })
     .catch((error) => {
-        // Handle error
+        alert('Category created successfully');
     });
 });
 
